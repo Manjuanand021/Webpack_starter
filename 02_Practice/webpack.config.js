@@ -1,14 +1,23 @@
 //Reference - https://www.youtube.com/watch?v=Y5ysGRK8KKA
 
-var path = require('path');
-var optimize = require('webpack').optimize;
+var path = require('path'),
+    optimize = require('webpack').optimize,
+    htmlWebpackPlugin = require('html-webpack-plugin'),
+    visualizer = require('webpack-visualizer-plugin');
+
 module.exports = {
-    entry: './app/index.js',
+    entry: {
+        bundle: './app/index.js',
+        vendor: ['jquery']
+    },
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
+        //Chunkhash helps with cache bursting
+        //Everytime if there are file changes, webpack changes chunkhash - 16 digit postfix to bundled file
+        filename: '[name].[hash].js',
         //Tell all the loaders to append to all the urls they create 
-        publicPath: 'build/'
+        // publicPath: 'build/' --Commenting this line because we are copying index.html in build folder, 
+        //so whatever we refere in index.html file will be in same directory
     },
     //Loaders are more like preprocessors - transforms modules before webpack creates bundle
     module: {
@@ -37,6 +46,15 @@ module.exports = {
     },
     //Plugins are post-processors, run on created bundle
     plugins: [
-        new optimize.UglifyJsPlugin()
+        new optimize.UglifyJsPlugin(),
+        //Common vendor code chunk is moved to vendor.js file
+        //Without this plugin we will have vendor code both in bundle.js and vendor.js
+        new optimize.CommonsChunkPlugin({
+            name: 'vendor'
+        }),
+        new htmlWebpackPlugin({
+            template: './index.html'
+        }),
+        new visualizer()
     ]
 }

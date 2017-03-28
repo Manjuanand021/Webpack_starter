@@ -1,4 +1,6 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+//Referecen - https://www.youtube.com/watch?v=JdGnYNtuEtE
+
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require('path');
 var isProd = process.env.NODE_ENV === 'production';

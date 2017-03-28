@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server"
+    "build": "npm run clean && webpack",
+    "start": "webpack-dev-server",
+    "hot": "webpack-dev-server --hot --inline",
+    "clean": "rimraf ./build/*",
+    "stats": "npm run build && start ./build/stats.html",
+    "prod": "webpack -p"
   },
   "keywords": [],
   "author": "",
@@ -20,12 +24,14 @@
     "image-loader": "0.0.1",
     "image-webpack-loader": "^3.3.0",
     "jquery": "^3.2.1",
+    "loadash": "0.0.1",
     "node-sass": "^4.5.1",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.0",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.2",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "webpack-visualizer-plugin": "^0.1.11"
   }
 }
